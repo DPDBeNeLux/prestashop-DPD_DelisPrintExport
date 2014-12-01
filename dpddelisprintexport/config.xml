@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+	<name>dpddelisprintexport</name>
+	<displayName><![CDATA[DPD DelisPrint Export]]></displayName>
+	<version><![CDATA[0.1]]></version>
+	<description><![CDATA[This module depends on the DPD Shipping module, and will export the data needed to print labels via DelisPrint.]]></description>
+	<author><![CDATA[Michiel Van Gucht]]></author>
+	<tab><![CDATA[shipping_logistics]]></tab>
+	<confirmUninstall><![CDATA[Are you sure you want to uninstall the DPD DelisPrint Export module?]]></confirmUninstall>
+	<is_configurable>0</is_configurable>
+	<need_instance>1</need_instance>
+	<limited_countries></limited_countries>
+</module>
