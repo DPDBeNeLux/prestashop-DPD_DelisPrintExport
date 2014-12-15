@@ -43,14 +43,14 @@ class DpdDelisPrintExport extends Module
 					CONCAT_WS (\' \', `psa`.`firstname`, `psa`.`lastname`) as `Cnee Name 1`,
 					`psa`.`address1` as `Cnee Address 1`,
 					`psa`.`address2` as `Cnee Address 2`,
-					(SELECT `ps_country`.`iso_code` FROM `ps_country` WHERE `ps_country`.`id_country` = `psa`.`id_country`) as `Cnee Country`, 
+					(SELECT `"._DB_PREFIX_."country`.`iso_code` FROM `"._DB_PREFIX_."country` WHERE `"._DB_PREFIX_."country`.`id_country` = `psa`.`id_country`) as `Cnee Country`, 
 					`psa`.`postcode`as `Cnee Zip Code`,
 					`psa`.`city` as `Cnee City`,
 					`pso`.`reference` as `CustomerRef 1`,
 					\'E\' as `Proactive Notification 1 Type`, # Always Email
-					(SELECT `ps_customer`.`email` FROM `ps_customer` WHERE `ps_customer`.`id_customer` = `pso`.`id_customer`) as `Proactive Notification 1 Value`, 
+					(SELECT `"._DB_PREFIX_."customer`.`email` FROM `"._DB_PREFIX_."customer` WHERE `"._DB_PREFIX_."customer`.`id_customer` = `pso`.`id_customer`) as `Proactive Notification 1 Value`, 
 					\'904\' as `Proactive Notification 1 Rule`, # Always 904
-					UCASE((SELECT `ps_lang`.`iso_code` FROM `ps_lang` WHERE `ps_lang`.`id_lang` = `pso`.`id_lang`)) as `Proactive Notification 1 Language`,
+					UCASE((SELECT `"._DB_PREFIX_."lang`.`iso_code` FROM `"._DB_PREFIX_."lang` WHERE `"._DB_PREFIX_."lang`.`id_lang` = `pso`.`id_lang`)) as `Proactive Notification 1 Language`,
 					FORMAT(`psoc`.`weight`, 2) as `Weight`,
 					1 as `Amount`,
 					`psdps`.`shop_name` as `Shop Name`,
@@ -59,14 +59,13 @@ class DpdDelisPrintExport extends Module
 					`psdps`.`shop_zipcode` as `Shop Zip Code`,
 					`psdps`.`shop_city` as `Shop City`,
 					`psdps`.`id_parcelshop` as `Shop ID`
-				FROM `ps_orders` as `pso` 
-				JOIN `ps_address` as `psa` ON `pso`.`id_address_delivery` = `psa`.`id_address`
-				JOIN `ps_carrier` as `psc` ON `pso`.`id_carrier` = `psc`.`id_carrier`
-				JOIN `ps_cart_dpdparcelshop` as `psdps` ON `pso`.`id_cart` = `psdps`.`id_cart`
-				JOIN `ps_order_carrier` as `psoc` ON `psoc`.`id_order` = `pso`.`id_order`
+				FROM `"._DB_PREFIX_."orders` as `pso` 
+				JOIN `"._DB_PREFIX_."address` as `psa` ON `pso`.`id_address_delivery` = `psa`.`id_address`
+				JOIN `"._DB_PREFIX_."carrier` as `psc` ON `pso`.`id_carrier` = `psc`.`id_carrier`
+				LEFT JOIN `"._DB_PREFIX_."cart_dpdparcelshop` as `psdps` ON `pso`.`id_cart` = `psdps`.`id_cart`
+				JOIN `"._DB_PREFIX_."order_carrier` as `psoc` ON `psoc`.`id_order` = `pso`.`id_order`
 				WHERE `pso`.`current_state` = 3 # preparation in progress
-				AND `psc`.`external_module_name` = \'dpdshipping\'
-				AND `psc`.`deleted`= 0"
+				AND `psc`.`external_module_name` = \'dpdshipping\'"
 		)));
 	}
 	
